@@ -1,7 +1,4 @@
-def example_method(
-        *args,
-
-        **kwargs):
+def example_method(*args, **kwargs):
     print(*args)
     print(**kwargs)
 
