@@ -5,5 +5,5 @@ class ExampleTestCase(unittest.TestCase):
     Test the example module as part of demonstrated CI workflow
     """
     def test_example(self):
-        self.assertTrue(1 == 1)
-
+        number_one = 1
+        self.assertTrue(number_one == 1)
