@@ -1,0 +1,34 @@
+[project]
+name = "python-ci-example"
+description = "Example project demonstrating various Github Actions driven CI services for Python-based projects"
+version = "0.0.1"
+requires-python = "~= 3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "pylint",
+]
+
+[tool.black]
+line-length = 96
+target-version = ["py310"]
+include = """
+    (^/example/.*\\.py)
+"""
+
+
+[tool.pylint.master]
+
+[tool.pylint.messages_control]
+max-line-length = 96
+disable = [
+  "fixme",
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "too-few-public-methods",
+  "too-many-instance-attributes",
+  "raise-missing-from",
+  "abstract-method",
+]
