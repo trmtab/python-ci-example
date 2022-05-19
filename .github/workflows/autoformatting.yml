@@ -1,0 +1,44 @@
+name: Auto-format Code
+
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - 'tests/**.py'
+      - 'example/**.py'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        # By default, when you use actions/checkout on a PR, it will checkout
+        # the head commit in a detached head state. If you want to make
+        # some changes, you have to checkout the branch
+        # the PR is coming from in the head repo.
+        # See: https://github.com/EndBug/add-and-commit#working-with-prs
+        ref: ${{ github.event.pull_request.head.ref }}
+        # Fetch all history
+        # See: https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
+        fetch-depth: 0
+        # Use a Personal Access Token (PAT) to ensure CI is run again after formatting
+        # See: https://github.com/EndBug/add-and-commit#the-commit-from-the-action-is-not-triggering-ci
+        # token: ${{ secrets.GH_PAT }}
+    - name: Determine Changed Files
+      id: list_changes
+      run: |
+        echo "::set-output name=files::$(git diff-tree -r -w --no-commit-id --diff-filter=dur --name-only ${{ github.event.pull_request.head.sha }} '*.py' | xargs)"
+    - name: List Changed Files
+      run: |
+        echo "${{ steps.list_changes.outputs.files }}"
+    - uses: psf/black@stable
+      with:
+        options: "--verbose"
+    - uses: EndBug/add-and-commit@v9
+      with:
+        add: "*.py"
+        # Your Display Name <your-actual@email.com>
+        default_author: user_info
+        message: ":fixup Auto-format code with psf/black"
+
