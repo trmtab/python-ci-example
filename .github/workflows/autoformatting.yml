@@ -40,5 +40,5 @@ jobs:
         add: "*.py"
         # Your Display Name <your-actual@email.com>
         default_author: user_info
-        message: ":fixup Auto-format code with psf/black"
+        message: ":fixup: Auto-format code with psf/black"
 
